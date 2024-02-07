@@ -8,8 +8,6 @@ env = dotenv_values(".env")
 
 app = lightbulb.BotApp(env["TOKEN"], env["PREFIX"], help_class=None, intents=hikari.Intents.ALL)
 
-
-
 # Help command
 
 @app.command()
