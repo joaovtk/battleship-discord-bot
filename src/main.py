@@ -1,13 +1,13 @@
 from dotenv import dotenv_values
 import hikari
 import lightbulb
+import time
 
 # Get the env variable and initial bot
 
 env = dotenv_values(".env")
 
 app = lightbulb.BotApp(env["TOKEN"], env["PREFIX"], help_class=None, intents=hikari.Intents.ALL)
-
 # Help command
 
 @app.command()
@@ -19,12 +19,19 @@ async def help(ctx: lightbulb.Context):
 # Start command
 
 @app.command()
-@lightbulb.command("start", "Start the battle Specs from github idea")
+@lightbulb.command("s", "Start the battle Specs from github idea")
 @lightbulb.implements(lightbulb.PrefixCommand)
 async def start(ctx: lightbulb.Context):
-    await ctx.respond("Start command")
+    msg = await ctx.respond(f"**Batalha iniciada com pc**")
+    await msg._message.add_reaction("🔫")
 
-
+    def Reaction(message: ctx):
+        if message.emoji_name == "🔫" and message.user_id== ctx.author.id:
+            return True
+        else:
+            return False
+        
+    await ctx.app.wait_for(hikari.ReactionAddEvent, timeout=None, predicate=Reaction)
 # Surrender command
 @app.command()
 @lightbulb.command("surrender", "Surrender the battle Optional Specs from github idea")
